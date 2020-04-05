@@ -6,6 +6,84 @@
     <title>Document</title>
 </head>
 <body>
-    <p>夭壽讚</p>
+    <style>
+        body{
+            font-family: Microsoft JhengHei;
+        }
+        .title{
+            color: white;
+            padding: 100px;
+            background-color: rgb(133, 163, 153);
+            text-align: center;font-size: 48px;
+        }
+        ul{
+            background-color: rgb(133, 163, 153);
+        }
+        ul li{
+            color: rgb(255, 255, 255);
+            font-weight: bolder;
+            font-size: 25px;
+            color: white;
+        }
+        .container {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+        /* 文字放在中間 */
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+        }
+        .profiles{
+            padding-right: 100px;
+            padding-left: 100px;
+            background-color: rgb(107, 114, 112);            
+            color: white;
+            font-size: 48px;
+            text-decoration:none;
+            
+        }
+        .links{
+            padding-right: 10px;
+            padding-left: 10px;
+            background-color: rgb(107, 114, 112);
+            color: white;
+            font-size: 20px;
+            text-decoration:none;
+        }
+        
+    </style>
+
+    <div>
+        <p class="title"><strong>My Blog</strong></p></br>
+    </div>
+    <div style="text-align: center;padding-bottom: 15px;"> 
+        <a href="#myprofile" class="profiles">關於我  Click here</a></br>
+    </div>
+    <div style="text-align: center;padding-bottom: 15px;"> 
+        <a href="https://www.google.com.tw" class="links">GOOGLE超連結</a></br>
+    </div>
+    
+    <div class="container">
+        <img  alt="error" height="100%" width="100%" src="https://i.imgur.com/GLX83F4.jpg" alt="Snow" style="width:100%;">
+        <div class="centered">紀錄生活每一刻</div>
+    </div>
+    <div id="myprofile">
+        <p  style="text-align: center;font-size: 48px;">===關於我===</p>
+    </div>
+
+    <ul>
+        <li>我的生活</li>
+        <p style="font-size: 20px;color: white;">台北新北趴趴走。</p>
+        <li>興趣</li>
+        <p style="font-size: 20px;color: white;">熱愛攝影、彈吉他。</p>
+        <li>座右銘</li>
+        <p style="font-size: 20px;color: white;">生活就是要樸實無華 且枯燥。</p>
+        
+    </ul>
 </body>
 </html>

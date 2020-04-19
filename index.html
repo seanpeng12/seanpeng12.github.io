@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab3作業-My BLOG</title>
+    <!-- 引入jquery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <!-- 以下為metirial design用 -->
+    <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
 </head>
 <body>
+
     <style>
         body{
             font-family: Microsoft JhengHei;
@@ -55,7 +61,48 @@
             font-size: 20px;
             text-decoration:none;
         }
-        
+
+        section {
+        width: 720px;
+        max-width: 100%;
+        margin: 60px auto;
+        }
+
+        a {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #000;
+        font-family: Arial, sans-serif;
+        }
+
+        .embed-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        }
+
+        .embed-container iframe,
+        .embed-container object,
+        .embed-container embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        }
+
+        .material-icons {
+        font-size: 36px;
+        color: #b0bec5;
+        }
+
+        .material-icons:hover {
+        color: #455a64;
+        }
+
+                
     </style>
 
     <div>
@@ -66,6 +113,28 @@
     </div>
     <div style="text-align: center;padding-bottom: 15px;"> 
         <a href="https://www.google.com.tw" class="links">GOOGLE超連結</a></br>
+    </div>
+    <div>
+        <section>
+            <a href="javascript:void callPlayer(&quot;videoembed1&quot;,&quot;playVideo&quot;)"><i class="material-icons md-dark md-36">繼續</i></a>
+            <a href="javascript:void callPlayer(&quot;videoembed1&quot;,&quot;pauseVideo&quot;)"><i class="material-icons md-dark md-36">暫停</i></a>
+            <a href="javascript:void callPlayer(&quot;videoembed1&quot;,&quot;stopVideo&quot;)"><i class="material-icons md-dark md-36">停!
+            </i></a>
+          
+            <div id="videoembed1" class="embed-container">
+              <iframe width="1008" height="567" src="https://www.youtube.com/embed/PLFcdYRS5II?feature=oembed&controls=0&hd=1&modestbranding=1&autohide=1&showinfo=0&enablejsapi=1" title="YouTube video player" type="text/html" frameborder="0"></iframe>
+            </div>
+          </section>
+          
+          <section>
+            <a href="javascript:void callPlayer(&quot;videoembed2&quot;,&quot;playVideo&quot;)"><i class="material-icons md-dark md-36">繼續</i></a>
+            <a href="javascript:void callPlayer(&quot;videoembed2&quot;,&quot;pauseVideo&quot;)"><i class="material-icons md-dark md-36">暫停</i></a>
+            <a href="javascript:void callPlayer(&quot;videoembed2&quot;,&quot;stopVideo&quot;)"><i class="material-icons md-dark md-36">停!</i></a>
+          
+            <div id="videoembed2" class="embed-container">
+              <iframe width="1008" height="567" frameborder="0" title="YouTube video player" type="text/html" src="https://www.youtube.com/embed/_BXf_h8tEes?feature=oembed&controls=0&hd=1&modestbranding=1&autohide=1&showinfo=0&enablejsapi=1"></iframe>
+            </div>
+          </section>
     </div>
     
     <div class="container">
@@ -90,5 +159,26 @@
         <img  alt="error" height="100%" width="100%" src="https://i.imgur.com/38vTSFO.jpg" alt="Snow" style="width:100%;">
         <div class="centered">老王樂團94讚</div>
     </div>
+
+    <script>
+        function callPlayer(frame_id, func, args) {
+        if (window.jQuery && frame_id instanceof jQuery) frame_id = frame_id.get(0).id;
+        var iframe = document.getElementById(frame_id);
+        if (iframe && iframe.tagName.toUpperCase() != 'IFRAME') {
+            iframe = iframe.getElementsByTagName('iframe')[0];
+        }
+        if (iframe) {
+            // Frame exists,
+            iframe.contentWindow.postMessage(JSON.stringify({
+            "event": "command",
+            "func": func,
+            "args": args || [],
+            "id": frame_id
+            }), "*");
+        }
+        }
+    </script> 
+    
+    
 </body>
 </html>

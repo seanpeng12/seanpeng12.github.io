@@ -1,0 +1,116 @@
+*************************************************************************
+* You are given a top level cell, TOP, with 9 ports, IO1 IO2 IO3 VDD1 VDD2
+* VDD3 VSS1 VSS2 VSS3. We want to report the primitive devices that are
+* connected to each port. Primitive devices are those with empty .SUBCKT
+* definition, such as, res, ndio, pdio, pmos, nmos etc.
+*
+* For example, for IO3 port, it has connection to INV_18, which in turn
+* connects to pmos and nmos. You need to report the following for IO3:
+*
+* PORT:
+*   IO3
+* DEVICES:
+*   XX50/XM1/pmos
+*   XX50/XM2/nmos
+*************************************************************************
+
+*************************************************************************
+* Primitive Device: res
+* Resistor with two terminals: PLUS, MINUS
+*************************************************************************
+.SUBCKT res PLUS MINUS
+.ENDS res
+
+*************************************************************************
+* Primitive Device: pdio
+* P-type diode with two terminals: PLUS, MINUS
+*************************************************************************
+.SUBCKT pdio PLUS MINUS
+.ENDS pdio
+
+*************************************************************************
+* Primitive Device: ndio
+* N-type diode with two terminals: PLUS, MINUS
+*************************************************************************
+.SUBCKT ndio PLUS MINUS
+.ENDS ndio
+
+*************************************************************************
+* Primitive Device: nmos
+* N-type MOS with 3 terminals: D (drain), G (gate), S (source), B (bulk)
+*************************************************************************
+.SUBCKT nmos D G S B
+.ENDS nmos
+
+*************************************************************************
+* Primitive Device: pmos
+* P-type MOS with 3 terminals: D (drain), G (gate), S (source), B (bulk)
+*************************************************************************
+.SUBCKT pmos D G S B
+.ENDS pmos
+
+*************************************************************************
+* Cell Name: DIO_D1D2
+* A subcircuit with 3 terminals: IO VDD VSS
+*************************************************************************
+.SUBCKT DIO_D1D2 IO VDD VSS
+XD1 IO VDD pdio
+XD2 VSS IO ndio
+.ENDS DIO_D1D2
+
+*************************************************************************
+* Cell Name: RESD200
+* A subcircuit with 2 terminals: IN OUT
+*************************************************************************
+.SUBCKT RESD200 IN OUT
+XR1 IN OUT res
+.ENDS RESD200
+
+*************************************************************************
+* Cell Name: INV_18
+* A subcircuit with 4 terminals: IN OUT VDD VSS
+*************************************************************************
+.SUBCKT INV_18 IN OUT VDD VSS
+XM1 VDD IN OUT VDD pmos
+XM2 OUT IN VSS VSS nmos
+.ENDS INV_18
+
+*************************************************************************
+* Cell Name: PC_IO_NMOS
+* A subcircuit with 4 terminals: VDD VSS
+*************************************************************************
+.SUBCKT PC_IO_NMOS VDD VSS
+XM1 VDD net016 VSS VSS nmos
+.ENDS PC_IO_NMOS
+
+*************************************************************************
+* Cell Name: B2B_NDIO
+* A subcircuit with 4 terminals: VSS1 VSS2
+*************************************************************************
+.SUBCKT B2B_NDIO VSS1 VSS2
+XD1 VSS1 VSS2 ndio
+XD2 VSS2 VSS1 ndio
+.ENDS B2B_NDIO
+
+*************************************************************************
+* Cell Name: TOP
+* A subcircuit with 9 terminals: IO1 IO2 IO3 VDD1 VDD2 VDD3 VSS1 VSS2 VSS3
+*************************************************************************
+.SUBCKT TOP IO1 IO2 IO3 VDD1 VDD2 VDD3 VSS1 VSS2 VSS3
+XX01 IO1 VDD1 VSS1 DIO_D1D2
+XX05 IO1 net08 RESD200
+XX02 net08 VDD1 VSS1 DIO_D1D2
+XX10 VDD1 VSS1 PC_IO_NMOS
+XX11 VDD3 VSS2 PC_IO_NMOS
+XX12 VDD1 VSS3 PC_IO_NMOS
+XX13 VDD2 VSS1 PC_IO_NMOS
+XX20 net08 domain1 VDD1 VSS1 INV_18
+XX31 domain1 VDD2 VSS2 DIO_D1D2
+XX40 VDD1 VSS2 PC_IO_NMOS
+XX41 VDD2 VSS2 PC_IO_NMOS
+XX03 IO2 VDD2 VSS3 DIO_D1D2
+XX60 domain2 domain3 VDD2 VSS2 INV_18
+XX90 VSS1 VSS2 B2B_NDIO
+XX91 VSS2 VSS3 B2B_NDIO
+XX50 IO3 domain2 VDD2 VSS2 INV_18
+.ENDS TOP
